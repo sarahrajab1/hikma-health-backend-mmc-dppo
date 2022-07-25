@@ -9,13 +9,13 @@ if ENV in ('dev_local', 'dev_docker', 'stg'):
     elif ENV == 'dev_docker':
         PG_HOST = 'db'
 
-    PG_USER = 'hikma_dev'
+    PG_USER = 'postgres'
     # PG_PASSWORD = 'password'
-    PG_PASSWORD = '96DDDDDB6425'
-    PG_DB = 'hikma_dev'
+    PG_PASSWORD = '=->*0+Sz|6Iu[VI9'
+    PG_DB = 'hikma-db'
     FLASK_DEBUG = True
     PHOTOS_STORAGE_BUCKET = 'dev-api-photos'
-    EXPORTS_STORAGE_BUCKET = 'dev-api-exports'
+    EXPORTS_STORAGE_BUCKET = 'hikma-api-exports'
     LOCAL_PHOTO_STORAGE_DIR = '/tmp/hikma_photos'
     DEFAULT_PROVIDER_ID_FOR_IMPORT = 'bd227f3d-0fbb-45c5-beed-8ce463481415'
 

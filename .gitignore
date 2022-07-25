@@ -115,3 +115,6 @@ ENV/
 
 # Redis
 dump.rdb
+
+# GCP Key
+refugee-health-alliance-hikma-ad95224aafcb.json
