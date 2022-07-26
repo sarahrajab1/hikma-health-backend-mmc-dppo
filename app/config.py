@@ -19,6 +19,7 @@ if ENV in ('dev_local', 'dev_docker', 'stg'):
     LOCAL_PHOTO_STORAGE_DIR = '/tmp/hikma_photos'
     DEFAULT_PROVIDER_ID_FOR_IMPORT = 'bd227f3d-0fbb-45c5-beed-8ce463481415'
 
+
 if ENV == 'prod':
     FLASK_DEBUG = False
     PG_USER = os.environ['DB_NAME']
