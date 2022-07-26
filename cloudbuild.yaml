@@ -24,7 +24,7 @@ steps:
 images:
 - 'gcr.io/$PROJECT_ID/hikma-health-backend:$COMMIT_SHA'
 substitutions:
-  _DB_INSTANCE: 'mmc-dppo:europe-west1:hikma-db'
+  _DB_INSTANCE: 'mmc-dppo:us-central1:dppo-hikma-db'
   _DB_NAME: 'hikma_prod'
 options:
   machineType: 'N1_HIGHCPU_8'
