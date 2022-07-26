@@ -27,5 +27,5 @@ substitutions:
   _DB_INSTANCE: 'mmc-dppo:us-central1:dppo-hikma-db'
   _DB_NAME: 'hikma_prod'
 options:
-  machineType: 'N1_HIGHCPU_8'
+  machineType: 'E2_HIGHCPU_8'
 
