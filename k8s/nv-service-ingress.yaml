@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: 34.69.68.172
-    networking.gke.io/managed-certificates: nv-api-certificate
+    networking.gke.io/managed-certificates: demo-api-certificate
   name: dppo-service-ingress
 spec:
   rules:
@@ -13,6 +13,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nv-nodeport-service
+            name: demo-nodeport-service
             port:
               number: 80
