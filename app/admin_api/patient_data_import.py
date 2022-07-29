@@ -54,7 +54,7 @@ COLUMNS = [
     'active_conditions',
     'inactive_conditions',
     'illness_history',
-    # medicines_1
+    # medicines_1 
     # 'medication_1',
     # 'type_1',
     # 'dosage_1',
@@ -79,6 +79,12 @@ COLUMNS = [
     # 'type_5',
     # 'dosage_5',
     # 'days_5',
+    # medicines
+    'on_stain',
+    'stain_name_dose',
+    'diabetes',
+    'htn',
+    'non_diabetes',
     # physiotherapy
     'previous_treatment',
     'complaint_p',
@@ -129,12 +135,6 @@ COLUMNS = [
     'musculoskeletal_note',
     'cns',
     'cns_note'
-    # medicines
-    'on_stain',
-    'stain_name_dose',
-    'diabetes',
-    'htn',
-    'non_diabetes',
     # foot examination
     'rt_vibration',
     'rt_monofilament',

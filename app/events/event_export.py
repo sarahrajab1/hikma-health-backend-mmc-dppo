@@ -198,7 +198,7 @@ def write_endocrinologist_cases_event(row: PatientDataRow, event):
     row.diabetes_education = data.get('diabetesEducation')
 
 
-def write_endocrinologist_cases_event(row: PatientDataRow, event):
+def write_referrals_event(row: PatientDataRow, event):
     data = json.loads(event.event_metadata)
     row.diabetic_educator = data.get('diabeticEducator')
     row.dietitian = data.get('dietitian')
