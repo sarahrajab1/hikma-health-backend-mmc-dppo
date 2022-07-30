@@ -21,11 +21,11 @@ if ENV in ('dev_local', 'dev_docker', 'stg'):
 
 if ENV == 'prod':
     FLASK_DEBUG = False
-    PG_USER = os.environ['DB_NAME']
-    PG_PASSWORD = os.environ['DB_PASSWORD']
+    PG_USER = 'hikma_prod'
+    PG_PASSWORD = 'pmy"8,*Rq4$a.?J:'
     PG_HOST = 'localhost'
-    PG_DB = os.environ['DB_NAME']
-    PHOTOS_STORAGE_BUCKET = os.environ['PHOTOS_STORAGE_BUCKET']
-    EXPORTS_STORAGE_BUCKET = os.environ['EXPORTS_STORAGE_BUCKET']
+    PG_DB = 'hikma_prod'
+    PHOTOS_STORAGE_BUCKET = 'dppo-hikma-photos-exports'
+    EXPORTS_STORAGE_BUCKET = 'dppo-hikma-api-exports'
     LOCAL_PHOTO_STORAGE_DIR = '/tmp/hikma_photos'
     DEFAULT_PROVIDER_ID_FOR_IMPORT = os.environ['DEFAULT_PROVIDER_ID']
