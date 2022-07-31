@@ -23,7 +23,7 @@ if ENV == 'prod':
     FLASK_DEBUG = False
     PG_USER = 'hikma_prod'
     PG_PASSWORD = 'pmy"8,*Rq4$a.?J:'
-    PG_HOST = 'localhost'
+    PG_HOST = 'http://34.172.255.221/'
     PG_DB = 'hikma_prod'
     PHOTOS_STORAGE_BUCKET = 'dppo-hikma-photos-exports'
     EXPORTS_STORAGE_BUCKET = 'dppo-hikma-api-exports'
