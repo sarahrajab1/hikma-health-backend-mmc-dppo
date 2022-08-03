@@ -80,6 +80,7 @@ pip3 install -r requirements.txt
 export GOOGLE_APPLICATION_CREDENTIALS=[key_filename].json
 ```
 
+export GOOGLE_APPLICATION_CREDENTIALS=mmc-dppo-6cd361f07742.json
 
 At this point, you should be able to `./run.sh` in your venv to run locally
 

@@ -134,7 +134,7 @@ COLUMNS = [
     'musculoskeletal',
     'musculoskeletal_note',
     'cns',
-    'cns_note'
+    'cns_note',
     # foot examination
     'rt_vibration',
     'rt_monofilament',
@@ -167,7 +167,7 @@ COLUMNS = [
     'urine_microalbuminuria',
     'urine_ketones',
     'ecg',
-    'other_investigations'
+    'other_investigations',
     # Ophthalmology Examination
     'rt_dilated_fundoscopy',
     'rt_ophthalmologist',
