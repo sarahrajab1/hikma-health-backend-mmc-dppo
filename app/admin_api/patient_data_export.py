@@ -15,13 +15,7 @@ from config import EXPORTS_STORAGE_BUCKET
 def most_recent_export():
     storage_client = storage.Client()
     blobs = storage_client.list_blobs(EXPORTS_STORAGE_BUCKET)
-    print("HERE")
-    print(blobs)
-    return 'name'
-    if not blobs:
-        most_recent = []
-    else:
-        most_recent = max(blobs, key=lambda b: b.name)
+    most_recent = max(blobs, key=lambda b: b.name)
     output = NamedTemporaryFile('wb', suffix='.xlsx', delete=False)
     output.close()
     most_recent.download_to_filename(output.name)
