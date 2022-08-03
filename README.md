@@ -67,6 +67,7 @@ gcloud kms encrypt --location=global --keyring=[keyring_name] --key=[key_name] -
 ```
 
 
+
 In backend repository /app folder
 
 ```
