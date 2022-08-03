@@ -21,10 +21,10 @@ if ENV in ('dev_local', 'dev_docker', 'stg'):
 
 if ENV == 'prod':
     FLASK_DEBUG = False
-    PG_USER = 'mwvnxtkisiiung'
-    PG_PASSWORD = '5045406894dc3d15bf4515694c89516647c2bc1e67ddbc31a0ab98cdbe8f68f9'
-    PG_HOST = 'ec2-107-22-122-106.compute-1.amazonaws.com'
-    PG_DB = 'da9qbafm1p22p6'
+    PG_USER = 'kkrmagpvtdshhn'
+    PG_PASSWORD = '52fbbba8253619e5d1e0a2b76fbced6d45f4be24a692b272000c312659f8dad7'
+    PG_HOST = 'ec2-3-208-79-113.compute-1.amazonaws.com'
+    PG_DB = 'd78sid9s1m5u2l'
     PHOTOS_STORAGE_BUCKET = 'dppo-hikma-photos-exports'
     EXPORTS_STORAGE_BUCKET = 'dppo-hikma-api-exports'
     LOCAL_PHOTO_STORAGE_DIR = '/tmp/hikma_photos'
