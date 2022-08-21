@@ -118,3 +118,6 @@ dump.rdb
 
 # GCP Key
 mmc-dppo-6cd361f07742.json
+
+# Config
+config.py
