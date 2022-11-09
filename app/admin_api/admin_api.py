@@ -8,6 +8,7 @@ from users.data_access import all_user_data, add_user, delete_user_by_id, user_d
 from language_strings.language_string import LanguageString
 from admin_api.patient_data_export import most_recent_export
 from admin_api.single_patient_data_export import single_patient_export
+from admin_api.patient_data_export import PatientDataExporter
 
 import uuid
 import bcrypt
@@ -18,6 +19,9 @@ from clinics.clinic import Clinic
 from clinics.data_access import add_clinic, all_clinic_data
 import uuid
 from datetime import datetime
+
+from config import EXPORTS_STORAGE_BUCKET
+from google.cloud import storage
 
 admin_api = Blueprint('admin_api', __name__, url_prefix='/admin_api')
 
@@ -109,6 +113,19 @@ def change_password(_admin_user):
 #     importer.run()
 #     return jsonify({'message': 'OK'})
 
+@admin_api.route('/run-export', methods=['GET'])
+@admin_authenticated
+def run_export(_admin_user):
+    storage_client = storage.Client()
+
+    exporter = PatientDataExporter()
+    local_filename = exporter.run()
+
+    bucket = storage_client.bucket(EXPORTS_STORAGE_BUCKET)
+    base_name = datetime.utcnow().isoformat() + '.xlsx'
+    blob = bucket.blob(base_name)
+    print(f'Uploading {base_name} to GCS bucket {EXPORTS_STORAGE_BUCKET}...')
+    blob.upload_from_filename(local_filename)
 
 @admin_api.route('/export', methods=['POST'])
 @admin_authenticated

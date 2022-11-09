@@ -1,4 +1,3 @@
-from events.event import Event
 from admin_api.patient_data_import import PatientDataRow
 import json
 
@@ -98,11 +97,12 @@ def write_covid_19_event(row: PatientDataRow, event):
 
 def write_medicines_event(row: PatientDataRow, event):
     data = json.loads(event.event_metadata)
-    row.on_stain = data.get('onStain')
-    row.stain_name_dose = data.get('stainNameDose')
+    row.on_statin = data.get('onStatin')
+    row.statin_name_dose = data.get('statinNameDose')
     row.diabetes = data.get('diabetes')
     row.htn = data.get('htn')
     row.family_history = data.get('familyHistory')
+    row.other_medicines = data.get('otherMedicines')
 
 
 def write_dm_history_event(row: PatientDataRow, event):
@@ -178,6 +178,26 @@ def write_lab_investigation_event(row: PatientDataRow, event):
     row.urine_ketones = data.get('urineKetones')
     row.ecg = data.get('ecg')
     row.other_investigations = data.get('otherInvestigations')
+    row.hb_a1c_value = data.get('hbA1cValue')
+    row.fating_glucose_value = data.get('fatingGlucoseValue')
+    row.random_glucose_value = data.get('randomGlucoseValue')
+    row.post_meal_glucose_value = data.get('postMealGlucoseValue')
+    row.creatinine_value = data.get('creatinineValue')
+    row.egfr_value = data.get('egfrValue')
+    row.total_cholesterol_value = data.get('totalCholesterolValue')
+    row.ldl_cholesterol_value = data.get('ldlCholesterolValue')
+    row.hdl_value = data.get('hdlValue')
+    row.tg_value = data.get('tgValue')
+    row.sodium_value = data.get('sodiumValue')
+    row.potassium_value = data.get('potassiumValue')
+    row.haemoglobin_value = data.get('haemoglobinValue')
+    row.urinary_acr_value = data.get('urinaryAcrValue')
+    row.dipstick_protein_value = data.get('dipstickProteinValue')
+    row.urine_protein_value = data.get('urineProteinValue')
+    row.urine_sugar_value = data.get('urineSugarValue')
+    row.urine_microalbuminuria_value = data.get('urineMicroalbuminuriaValue')
+    row.urine_ketones_value = data.get('urineKetonesValue')
+    row.ecg_value = data.get('ecgValue')
 
 def write_ophthalmology_examination_event(row: PatientDataRow, event):
     data = json.loads(event.event_metadata)
@@ -206,5 +226,11 @@ def write_referrals_event(row: PatientDataRow, event):
     row.foot_care_clinic = data.get('footCareClinic')
     row.social_services = data.get('socialServices')
     row.psychologist = data.get('psychologist')
+    row.referral_date = data.get('referralDate')
+
+
+def write_diabetes_education_event(row: PatientDataRow, event):
+    data = json.loads(event.event_metadata)
+    row.visit_note = data.get('visitNote')
 
 
