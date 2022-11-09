@@ -4,7 +4,7 @@ from openpyxl import load_workbook
 from events.data_access import events_by_visit, camp_by_patient
 from patients.data_access import patient_from_id
 from users.data_access import user_name_by_id
-from events.event_export import write_vitals_event, write_medical_hx_event, write_examination_event, write_med1_event, write_med2_event, write_med3_event, write_med4_event, write_med5_event, write_physiotherapy_event, write_covid_19_event, write_medicines_event, write_dm_history_event, write_clinical_examination_event, write_foot_examination_event, write_lab_investigation_event, write_ophthalmology_examination_event, write_endocrinologist_cases_event, write_endocrinologist_cases_event, write_referrals_event, write_diabetes_education_event
+from events.event_export import write_vitals_event, write_medical_hx_event, write_examination_event, write_med1_event, write_med2_event, write_med3_event, write_med4_event, write_med5_event, write_physiotherapy_event, write_covid_19_event, write_medicines_event, write_dm_history_event, write_clinical_examination_event, write_foot_examination_event, write_lab_investigation_event, write_ophthalmology_examination_event, write_endocrinologist_cases_event, write_endocrinologist_cases_event, write_referrals_event
 from datetime import datetime, timedelta
 from tempfile import NamedTemporaryFile
 import json
@@ -14,16 +14,6 @@ from config import EXPORTS_STORAGE_BUCKET
 
 def most_recent_export():
     storage_client = storage.Client()
-
-    exporter = PatientDataExporter()
-    local_filename = exporter.run()
-
-    bucket = storage_client.bucket(EXPORTS_STORAGE_BUCKET)
-    base_name = datetime.utcnow().isoformat() + '.xlsx'
-    blob = bucket.blob(base_name)
-    print(f'Uploading {base_name} to GCS bucket {EXPORTS_STORAGE_BUCKET}...')
-    blob.upload_from_filename(local_filename)
-
     blobs = storage_client.list_blobs(EXPORTS_STORAGE_BUCKET)
     most_recent = max(blobs, key=lambda b: b.name)
     output = NamedTemporaryFile('wb', suffix='.xlsx', delete=False)
@@ -68,19 +58,8 @@ class PatientDataExporter:
                 age=self.age_string_from_dob(patient.date_of_birth),
                 gender=patient.sex,
                 hometown=patient.hometown.get('en'),
-                # home_country=patient.country.get('en'),
-                locality=patient.locality,
-                city=patient.city,
-                hai_village=patient.hai_village,
-                blok_no=patient.blok_no,
-                house_no=patient.house_no,
-                occupation=patient.occupation,
-                insurance=patient.insurance,
-                private_insurance=patient.private_insurance,
+                home_country=patient.country.get('en'),
                 phone=patient.phone,
-                id_number=patient.id_number,
-                record_number=patient.record_number,
-                first_register_date=patient.first_register_date
             )
             provider = user_name_by_id(visit.provider_id)
             if provider is not None:   
@@ -157,8 +136,6 @@ class PatientDataExporter:
                     write_lab_investigation_event(row, event)
                 elif event.event_type == 'Ophthalmology Examination':
                     write_ophthalmology_examination_event(row, event)
-                elif event.event_type == 'Diabetes Education':
-                    write_diabetes_education_event(row, event)
             yield row
 
     def write_text_event(self, row, key, text):

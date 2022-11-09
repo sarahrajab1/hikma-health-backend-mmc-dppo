@@ -12,20 +12,9 @@ class Patient(ClientObject):
     surname: LanguageString
     date_of_birth: date
     sex: str
-    # country: LanguageString
+    country: LanguageString
     hometown: LanguageString
-    locality: str
-    city: str
-    hai_village: str
-    blok_no: str
-    house_no: str
-    occupation: str
-    insurance: str
-    private_insurance: str
     phone: str
-    id_number: str
-    record_number: str
-    first_register_date: date
     edited_at: datetime
 
     def client_insert_values(self):

@@ -1,4 +1,25 @@
+from werkzeug.datastructures import FileStorage
+from tempfile import NamedTemporaryFile
+from openpyxl import load_workbook
+from web_errors import WebError
 from dataclasses import dataclass
+from typing import Iterable
+from clinics.data_access import get_most_common_clinic
+from patients.data_access import patient_from_key_data, add_patient
+from patients.patient import Patient
+from visits.data_access import first_visit_by_patient_and_date, add_visit
+from visits.visit import Visit
+from events.data_access import clear_all_events, add_event
+from events.event import Event
+import uuid
+from language_strings.language_string import LanguageString
+from util import as_string
+from datetime import date, timedelta, datetime
+import itertools
+import json
+from config import DEFAULT_PROVIDER_ID_FOR_IMPORT
+import pandas as pd
+import dateutil
 
 COLUMNS = [
     'camp',
@@ -10,19 +31,8 @@ COLUMNS = [
     'age',
     'gender',
     'hometown',
-    # 'home_country',
-    'locality',
-    'city',
-    'hai_village',
-    'blok_no',
-    'house_no',
-    'occupation',
-    'insurance',
-    'private_insurance',
+    'home_country',
     'phone',
-    'id_number',
-    'record_number',
-    'first_register_date',
     'doctor',
     # medical hx
     'allergies',
@@ -42,6 +52,7 @@ COLUMNS = [
     # examination
     'examination_complaint',
     'active_conditions',
+    'inactive_conditions',
     'illness_history',
     # medicines_1 
     # 'medication_1',
@@ -69,12 +80,11 @@ COLUMNS = [
     # 'dosage_5',
     # 'days_5',
     # medicines
-    'on_statin',
-    'statin_name_dose',
+    'on_stain',
+    'stain_name_dose',
     'diabetes',
     'htn',
     'non_diabetes',
-    'other_medicines',
     # physiotherapy
     'previous_treatment',
     'complaint_p',
@@ -138,45 +148,25 @@ COLUMNS = [
     'left_posterior_pulse',
     # lab investigation
     'hb_a1c',
-    'hb_a1c_value',
     'fating_glucose',
-    'fating_glucose_value',
     'random_glucose',
-    'random_glucose_value',
     'post_meal_glucose',
-    'post_meal_glucose_value',
     'creatinine',
-    'creatinine_value',
     'egfr',
-    'egfr_value',
     'total_cholesterol',
-    'total_cholesterol_value',
     'ldl_cholesterol',
-    'ldl_cholesterol_value',
     'hdl',
-    'hdl_value',
     'tg',
-    'tg_value',
     'sodium',
-    'sodium_value',
     'potassium',
-    'potassium_value',
     'haemoglobin',
-    'haemoglobin_value',
     'urinary_acr',
-    'urinary_acr_value',
     'dipstick_protein',
-    'dipstick_protein_value',
     'urine_protein',
-    'urine_protein_value',
     'urine_sugar',
-    'urine_sugar_value',
     'urine_microalbuminuria',
-    'urine_microalbuminuria_value',
     'urine_ketones',
-    'urine_ketones_value',
     'ecg',
-    'ecg_value',
     'other_investigations',
     # Ophthalmology Examination
     'rt_dilated_fundoscopy',
@@ -190,6 +180,7 @@ COLUMNS = [
     # Endocrinologist Cases
     'indications',
     'feedback',
+    'diabetes_education',
     # Referrals
     'diabetic_educator',
     'dietitian',
@@ -197,9 +188,6 @@ COLUMNS = [
     'foot_care_clinic',
     'social_services',
     'psychologist',
-    'referral_date',
-    # Diabeted Education
-    'visit_note'
 ]
 
 @dataclass
@@ -213,19 +201,8 @@ class PatientDataRow:
     age: str = None
     gender: str = None
     hometown: str = None
-    locality: str = None
-    city: str = None
-    hai_village: str = None
-    blok_no: str = None
-    house_no: str = None
-    occupation: str = None
-    insurance: str = None
-    private_insurance: str = None
+    home_country: str = None
     phone: str = None
-    id_number: str = None
-    record_number: str = None
-    first_register_date: str = None
-    # home_country: str = None
     doctor: str = None
     allergies: str = None
     surgery_hx: str = None
@@ -241,6 +218,7 @@ class PatientDataRow:
     pulse: str = None
     examination_complaint: str = None
     active_conditions: str = None
+    inactive_conditions: str = None
     illness_history: str = None
     examination: str = None
     general_observations: str = None
@@ -317,12 +295,11 @@ class PatientDataRow:
     cns: str = None
     cns_note: str = None
     # medicines
-    on_statin: str = None
-    statin_name_dose: str = None
+    on_stain: str = None
+    stain_name_dose: str = None
     diabetes: str = None
     htn: str = None
     non_diabetes: str = None
-    other_medicines: str = None
     # foot examination
     rt_vibration: str = None
     rt_monofilament: str = None
@@ -336,45 +313,25 @@ class PatientDataRow:
     left_posterior_pulse: str = None
     # lab investigation
     hb_a1c: str = None
-    hb_a1c_value: str = None
     fating_glucose: str = None
-    fating_glucose_value: str = None
     random_glucose: str = None
-    random_glucose_value: str = None
     post_meal_glucose: str = None
-    post_meal_glucose_value: str = None
     creatinine: str = None
-    creatinine_value: str = None
     egfr: str = None
-    egfr_value: str = None
     total_cholesterol: str = None
-    total_cholesterol_value: str = None
     ldl_cholesterol: str = None
-    ldl_cholesterol_value: str = None
     hdl: str = None
-    hdl_value: str = None
     tg: str = None
-    tg_value: str = None
     sodium: str = None
-    sodium_value: str = None
     potassium: str = None
-    potassium_value: str = None
     haemoglobin: str = None
-    haemoglobin_value: str = None
     urinary_acr: str = None
-    urinary_acr_value: str = None
     dipstick_protein: str = None
-    dipstick_protein_value: str = None
     urine_protein: str = None
-    urine_protein_value: str = None
     urine_sugar: str = None
-    urine_sugar_value: str = None
     urine_microalbuminuria: str = None
-    urine_microalbuminuria_value: str = None
     urine_ketones: str = None
-    urine_ketones_value: str = None
     ecg: str = None
-    ecg_value: str = None
     other_investigations: str = None
     # Ophthalmology Examination
     rt_dilated_fundoscopy: str = None
@@ -388,6 +345,7 @@ class PatientDataRow:
     # Endocrinologist Cases
     indications: str = None
     feedback: str = None
+    diabetes_education: str = None
     # Referrals
     diabetic_educator: str = None
     dietitian: str = None
@@ -395,9 +353,7 @@ class PatientDataRow:
     foot_care_clinic: str = None
     social_services: str = None
     psychologist: str = None
-    referral_date: str = None
-    # Diabetes Education
-    visit_note: str = None
+
 
 
 
