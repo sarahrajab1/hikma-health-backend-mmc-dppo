@@ -4,12 +4,10 @@ from openpyxl import load_workbook
 from events.data_access import events_by_visit, camp_by_patient
 from patients.data_access import patient_from_id
 from users.data_access import user_name_by_id
-from events.event_export import write_vitals_event, write_medical_hx_event, write_examination_event, write_med1_event, write_med2_event, write_med3_event, write_med4_event, write_med5_event, write_physiotherapy_event, write_covid_19_event, write_medicines_event, write_dm_history_event, write_clinical_examination_event, write_foot_examination_event, write_lab_investigation_event, write_ophthalmology_examination_event, write_endocrinologist_cases_event, write_endocrinologist_cases_event, write_referrals_event
+from events.event_export import write_vitals_event, write_medical_hx_event, write_examination_event, write_physiotherapy_event, write_covid_19_event, write_medicines_event, write_dm_history_event, write_clinical_examination_event, write_foot_examination_event, write_lab_investigation_event, write_ophthalmology_examination_event, write_endocrinologist_cases_event, write_endocrinologist_cases_event, write_referrals_event, write_diabetes_education_event
 from datetime import datetime, timedelta
 from tempfile import NamedTemporaryFile
 import json
-from google.cloud import storage
-from config import EXPORTS_STORAGE_BUCKET
 
 
 def single_patient_export(patient_id: str):
@@ -52,8 +50,19 @@ class SinglePatientDataExporter:
                 age=self.age_string_from_dob(patient.date_of_birth),
                 gender=patient.sex,
                 hometown=patient.hometown.get('en'),
-                home_country=patient.country.get('en'),
+                # home_country=patient.country.get('en'),
+                locality=patient.locality,
+                city=patient.city,
+                hai_village=patient.hai_village,
+                blok_no=patient.blok_no,
+                house_no=patient.house_no,
+                occupation=patient.occupation,
+                insurance=patient.insurance,
+                private_insurance=patient.private_insurance,
                 phone=patient.phone,
+                id_number=patient.id_number,
+                record_number=patient.record_number,
+                first_register_date=patient.first_register_date
             )
             provider = user_name_by_id(visit.provider_id)
             if provider is not None:
@@ -130,6 +139,8 @@ class SinglePatientDataExporter:
                     write_lab_investigation_event(row, event)
                 elif event.event_type == 'Ophthalmology Examination':
                     write_ophthalmology_examination_event(row, event)
+                elif event.event_type == 'Diabetes Education':
+                    write_diabetes_education_event(row, event)
             yield row
 
     def write_text_event(self, row, key, text):

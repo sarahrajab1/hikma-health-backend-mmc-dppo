@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: run-full-export
-            image: gcr.io/mmc-dppo/hikma-health-backend:5daee25376c6c956e41f1153dfb2eb4486b29a8a
+            image: gcr.io/mmc-dppo/hikma-health-backend:e22e47f690439747f366a9e13dfdf4e1005678d8
             command:
             - /bin/bash
             - run-export.sh
