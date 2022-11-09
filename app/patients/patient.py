@@ -12,7 +12,7 @@ class Patient(ClientObject):
     surname: LanguageString
     date_of_birth: date
     sex: str
-    country: LanguageString
+    # country: LanguageString
     hometown: LanguageString
     locality: str
     city: str
