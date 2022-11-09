@@ -17,7 +17,7 @@ def add_patient(patient: Patient):
                          to_id(patient.surname),
                          patient.date_of_birth,
                          patient.sex,
-                        #  to_id(patient.country),
+                         to_id(patient.country),
                          to_id(patient.hometown),
                          patient.edited_at,
                         patient.locality,

@@ -68,7 +68,7 @@ class PatientDataExporter:
                 age=self.age_string_from_dob(patient.date_of_birth),
                 gender=patient.sex,
                 hometown=patient.hometown.get('en'),
-                # home_country=patient.country.get('en'),
+                home_country=patient.country.get('en'),
                 locality=patient.locality,
                 city=patient.city,
                 hai_village=patient.hai_village,
