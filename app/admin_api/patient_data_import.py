@@ -10,7 +10,7 @@ COLUMNS = [
     'age',
     'gender',
     'hometown',
-    # 'home_country',
+    'home_country',
     'locality',
     'city',
     'hai_village',
@@ -225,7 +225,7 @@ class PatientDataRow:
     id_number: str = None
     record_number: str = None
     first_register_date: str = None
-    # home_country: str = None
+    home_country: str = None
     doctor: str = None
     allergies: str = None
     surgery_hx: str = None

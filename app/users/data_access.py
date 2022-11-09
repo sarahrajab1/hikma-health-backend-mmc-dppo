@@ -74,8 +74,10 @@ def invalidate_all_tokens(user_id):
 def user_id_by_token(token):
     with get_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute('SELECT user_id FROM tokens WHERE token = %s AND expiry > now()', [token])
+            print(token)
+            cur.execute('SELECT user_id FROM tokens WHERE token = %s', [token])
             result = cur.fetchone()
+            print(result)
             if result:
                 return result[0]
             else:
