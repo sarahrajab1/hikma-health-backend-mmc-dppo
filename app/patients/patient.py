@@ -47,7 +47,7 @@ class Patient(ClientObject):
                 self.phone, 
                 self.id_number, 
                 self.record_number, 
-                self.first_register_date,
+                self.format_ts(self.first_register_date),
                 self.format_ts(self.edited_at)]
 
     @classmethod
@@ -105,9 +105,7 @@ class Patient(ClientObject):
 
     @classmethod
     def server_insert_sql(cls):
-        return """INSERT INTO patients (id, 
-        self.given_name, 
-        self.surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+        return """INSERT INTO patients (id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
     def server_update_values(self):
         return [self.format_string(self.given_name),
