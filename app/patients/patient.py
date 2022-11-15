@@ -47,7 +47,7 @@ class Patient(ClientObject):
                 self.phone, 
                 self.id_number, 
                 self.record_number, 
-                self.format_ts(self.first_register_date),
+                self.format_date(self.first_register_date),
                 self.format_ts(self.edited_at)]
 
     @classmethod
@@ -72,7 +72,7 @@ class Patient(ClientObject):
                 self.phone, 
                 self.id_number, 
                 self.record_number, 
-                self.first_register_date,
+                self.format_date(self.first_register_date),
                 self.format_ts(self.edited_at),
                 self.id]
 

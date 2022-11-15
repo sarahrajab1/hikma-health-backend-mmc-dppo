@@ -80,7 +80,7 @@ class PatientDataExporter:
                 phone=patient.phone,
                 id_number=patient.id_number,
                 record_number=patient.record_number,
-                first_register_date=patient.first_register_date
+                first_register_date=self.format_date(patient.first_register_date),
             )
             provider = user_name_by_id(visit.provider_id)
             if provider is not None:   
