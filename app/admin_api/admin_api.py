@@ -3,7 +3,7 @@ from web_util import assert_data_has_keys, admin_authenticated
 from web_errors import WebError
 from users.user import User
 from patients.patient import Patient
-from patients.data_access import all_patient_data, search_patients
+from patients.data_access import all_patient_data, search_patients, delete_all_patients_data
 from users.data_access import all_user_data, add_user, delete_user_by_id, user_data_by_email
 from language_strings.language_string import LanguageString
 from admin_api.patient_data_export import most_recent_export
@@ -35,6 +35,12 @@ def add_demo_clinic():
 
     return jsonify({'clinic': "EMA"})
 
+@admin_api.route('/empty_db', methods=['GET'])
+@admin_authenticated
+def empty_db():
+    delete_all_patients_data()
+
+    return jsonify({'status': "Done"})
 
 @admin_api.route('/list_clinics', methods=['GET'])
 def list_clinics():
