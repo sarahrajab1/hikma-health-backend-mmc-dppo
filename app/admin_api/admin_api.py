@@ -37,7 +37,7 @@ def add_demo_clinic():
 
 @admin_api.route('/empty_db', methods=['GET'])
 @admin_authenticated
-def empty_db():
+def empty_db(_admin_user):
     delete_all_patients_data()
 
     return jsonify({'status': "Done"})
