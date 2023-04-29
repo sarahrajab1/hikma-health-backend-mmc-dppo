@@ -4,7 +4,7 @@ nohup.out
 # Credentials
 hikma-health-098c787f1bcd.json
 hikma-health-22d28719dd41.json
-mmc-dppo-6cd361f07742.json
+mmc-dppo-fd6cbdfb128a.json
 
 # Mac stuff
 .DS_Store
@@ -119,6 +119,7 @@ dump.rdb
 
 # GCP Key
 mmc-dppo-6cd361f07742.json
+mmc-dppo-fd6cbdfb128a.json
 
 # Config
 config.py
