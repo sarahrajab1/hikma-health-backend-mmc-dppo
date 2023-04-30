@@ -7,8 +7,8 @@ steps:
   - --ciphertext-file=mmc-dppo-fd6cbdfb128a.json.enc
   - --plaintext-file=mmc-dppo-fd6cbdfb128a.json
   - --location=global
-  - --keyring=hikma-key-ring
-  - --key=hikma-crypto-key
+  - --keyring=mmc-hikma-key
+  - --key=mmc-hikma-key
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/hikma-health-backend:$COMMIT_SHA',
           '--build-arg', 'app_env_arg=prod',
