@@ -11,7 +11,7 @@ def add_patient(patient: Patient):
     update_language_string(patient.hometown)
     with get_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute('INSERT INTO patients (id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+            cur.execute('INSERT INTO patients (id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
                         [patient.id,
                          to_id(patient.given_name),
                          to_id(patient.surname),
@@ -19,7 +19,6 @@ def add_patient(patient: Patient):
                          patient.sex,
                          to_id(patient.country),
                          to_id(patient.hometown),
-                         patient.edited_at,
                         patient.locality,
                         patient.city,
                         patient.hai_village,
@@ -34,7 +33,8 @@ def add_patient(patient: Patient):
                         patient.clinic_estate,
                         patient.clinic_city,
                         patient.clinic_name,
-                        patient.first_register_date
+                        patient.first_register_date,
+                        patient.edited_at
                          ])
 
 

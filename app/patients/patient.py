@@ -78,6 +78,9 @@ class Patient(ClientObject):
                 self.phone, 
                 self.id_number, 
                 self.record_number, 
+                self.clinic_estate,
+                self.clinic_city,
+                self.clinic_name,
                 self.format_date(self.first_register_date),
                 self.format_ts(self.edited_at),
                 self.id]
@@ -106,6 +109,9 @@ class Patient(ClientObject):
                 self.phone, 
                 self.id_number, 
                 self.record_number, 
+                self.clinic_estate,
+                self.clinic_city,
+                self.clinic_name,
                 self.first_register_date,
                 self.edited_at]
 
@@ -131,6 +137,9 @@ class Patient(ClientObject):
                 self.phone, 
                 self.id_number, 
                 self.record_number, 
+                self.clinic_estate,
+                self.clinic_city,
+                self.clinic_name,
                 self.first_register_date,
                 self.edited_at,
                 self.id]
