@@ -44,6 +44,9 @@ class SinglePatientDataExporter:
                 continue
             row = PatientDataRow(
                 visit_date=visit.check_in_timestamp.strftime("%d-%m-%Y"),
+                clinic_estate= patient.clinic_estate,
+                clinic_city=patient.clinic_city,
+                clinic_name=patient.clinic_name,
                 first_name=patient.given_name.get('en'),
                 surname=patient.surname.get('en'),
                 date_of_birth=self.format_date(patient.date_of_birth),

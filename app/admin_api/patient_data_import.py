@@ -4,6 +4,9 @@ COLUMNS = [
     'camp',
     'visit_date',
     'visit_type',
+    'clinic_estate',
+    'clinic_city',
+    'clinic_name',
     'first_name',
     'surname',
     'date_of_birth',
@@ -207,6 +210,9 @@ class PatientDataRow:
     camp: str = None
     visit_date: str = None
     visit_type: str = None
+    clinic_estate: str = None
+    clinic_city: str = None
+    clinic_name: str = None
     first_name: str = None
     surname: str = None
     date_of_birth: str = None

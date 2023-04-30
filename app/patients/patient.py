@@ -25,6 +25,9 @@ class Patient(ClientObject):
     phone: str
     id_number: str
     record_number: str
+    clinic_estate: str
+    clinic_city: str
+    clinic_name: str
     first_register_date: date
     edited_at: datetime
 
@@ -46,13 +49,16 @@ class Patient(ClientObject):
                 self.private_insurance, 
                 self.phone, 
                 self.id_number, 
-                self.record_number, 
+                self.record_number,
+                self.clinic_estate,
+                self.clinic_city,
+                self.clinic_name,
                 self.format_date(self.first_register_date),
                 self.format_ts(self.edited_at)]
 
     @classmethod
     def client_insert_sql(cls):
-        return """INSERT INTO patients (id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+        return """INSERT INTO patients (id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
 
     def client_update_values(self):
         return [self.format_string(self.given_name),
@@ -78,7 +84,7 @@ class Patient(ClientObject):
 
     @classmethod
     def client_update_sql(cls):
-        return """UPDATE patients SET given_name = ?, surname = ?, date_of_birth = ?, sex = ?, country = ?, hometown = ?, locality = ?, city = ?, hai_village = ?, blok_no = ?, house_no = ?, occupation = ?, insurance = ?, private_insurance = ?, phone = ?, id_number = ?, record_number = ?, first_register_date = ?, edited_at = ? WHERE id = ?"""
+        return """UPDATE patients SET given_name = ?, surname = ?, date_of_birth = ?, sex = ?, country = ?, hometown = ?, locality = ?, city = ?, hai_village = ?, blok_no = ?, house_no = ?, occupation = ?, insurance = ?, private_insurance = ?, phone = ?, id_number = ?, record_number = ?, clinic_estate = ?, clinic_city = ?, clinic_name = ?, first_register_date = ?, edited_at = ? WHERE id = ?"""
             
 
     def server_insert_values(self):
@@ -105,7 +111,7 @@ class Patient(ClientObject):
 
     @classmethod
     def server_insert_sql(cls):
-        return """INSERT INTO patients (id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+        return """INSERT INTO patients (id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
     def server_update_values(self):
         return [self.format_string(self.given_name),
@@ -131,7 +137,7 @@ class Patient(ClientObject):
 
     @classmethod
     def server_update_sql(cls):
-        return """UPDATE patients SET given_name = %s, surname = %s, date_of_birth = %s, sex = %s, country = %s, hometown = %s, locality = %s, city = %s, hai_village = %s, blok_no = %s, house_no = %s, occupation = %s, insurance = %s, private_insurance = %s, phone = %s, id_number = %s, record_number = %s, first_register_date = %s, edited_at = %s WHERE id = %s"""
+        return """UPDATE patients SET given_name = %s, surname = %s, date_of_birth = %s, sex = %s, country = %s, hometown = %s, locality = %s, city = %s, hai_village = %s, blok_no = %s, house_no = %s, occupation = %s, insurance = %s, private_insurance = %s, phone = %s, id_number = %s, record_number = %s, clinic_estate = %s, clinic_city = %s, clinic_name = %s, first_register_date = %s, edited_at = %s WHERE id = %s"""
 
 
     @classmethod
@@ -154,6 +160,9 @@ class Patient(ClientObject):
                 ('phone', identity),
                 ('id_number', identity),
                 ('record_number', identity),
+                ('clinic_estate', identity),
+                ('clinic_city', identity),
+                ('clinic_name', identity),
                 ('first_register_date', identity),
                 ('edited_at', identity)]
 
@@ -177,6 +186,9 @@ class Patient(ClientObject):
                 ('phone', identity),
                 ('id_number', identity),
                 ('record_number', identity),
+                ('clinic_estate', identity),
+                ('clinic_city', identity),
+                ('clinic_name', identity),
                 ('first_register_date', identity),
                 ('edited_at', parse_client_timestamp)]
 
@@ -186,8 +198,8 @@ class Patient(ClientObject):
 
     @classmethod
     def from_db_row(cls, db_row):
-        id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at = db_row
-        return cls(id, LanguageString.from_id(given_name), LanguageString.from_id(surname), date_of_birth, sex, LanguageString.from_id(country), LanguageString.from_id(hometown), locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at)    
+        id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at = db_row
+        return cls(id, LanguageString.from_id(given_name), LanguageString.from_id(surname), date_of_birth, sex, LanguageString.from_id(country), LanguageString.from_id(hometown), locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at)    
 
     def to_dict(self):
         return {
@@ -208,7 +220,10 @@ class Patient(ClientObject):
             'private_insurance': self.private_insurance, 
             'phone': self.phone, 
             'id_number': self.id_number, 
-            'record_number': self.record_number, 
+            'record_number': self.record_number,
+            'clinic_estate': self.clinic_estate,
+            'clinic_city': self.clinic_city,
+            'clinic_name': self.clinic_name,
             'first_register_date': self.first_register_date,
             'edited_at': self.edited_at
         }

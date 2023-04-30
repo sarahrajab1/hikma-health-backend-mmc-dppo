@@ -150,8 +150,8 @@ def get_all_patients(_admin_user):
 @admin_api.route('/search_patients', methods=['POST'])
 @admin_authenticated
 def search(_admin_user):
-    params = assert_data_has_keys(request, {'given_name', 'surname', 'country', 'hometown'})
-    patient = [Patient.from_db_row(r).to_dict() for r in search_patients(params['given_name'], params['surname'], params['country'], params['hometown'])]
+    params = assert_data_has_keys(request, {'given_name', 'surname', 'country', 'hometown', 'clinic_city', 'clinic_name'})
+    patient = [Patient.from_db_row(r).to_dict() for r in search_patients(params['given_name'], params['surname'], params['country'], params['hometown'], params['clinic_city'], params['clinic_name'])]
     return jsonify({'patient': patient})
         
 

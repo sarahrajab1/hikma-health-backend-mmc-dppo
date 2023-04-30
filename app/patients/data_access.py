@@ -11,7 +11,7 @@ def add_patient(patient: Patient):
     update_language_string(patient.hometown)
     with get_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute('INSERT INTO patients (id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+            cur.execute('INSERT INTO patients (id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
                         [patient.id,
                          to_id(patient.given_name),
                          to_id(patient.surname),
@@ -31,6 +31,9 @@ def add_patient(patient: Patient):
                         patient.phone,
                         patient.id_number,
                         patient.record_number,
+                        patient.clinic_estate,
+                        patient.clinic_city,
+                        patient.clinic_name,
                         patient.first_register_date
                          ])
 
@@ -75,14 +78,14 @@ def patient_from_key_data(given_name: str, surname: str, country: str, sex: str)
 
 def all_patient_data():
     query = """
-    SELECT id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at FROM patients ORDER BY edited_at DESC LIMIT 25
+    SELECT id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at FROM patients ORDER BY edited_at DESC LIMIT 25
     """
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(query, [])
             yield from cur
 
-def search_patients(given_name: str, surname: str, country: str, hometown: str):
+def search_patients(given_name: str, surname: str, country: str, hometown: str, clinic_city: str, clinic_name: str):
     where_clauses = []
     params = []
     if given_name is not None:
@@ -101,9 +104,17 @@ def search_patients(given_name: str, surname: str, country: str, hometown: str):
         where_clauses.append("UPPER(get_string(hometown, 'en')) LIKE %s")
         params.append(f'%{hometown.upper()}%')
 
+    if clinic_city is not None:
+        where_clauses.append("UPPER(get_string(clinic_city, 'en')) LIKE %s")
+        params.append(f'%{clinic_city.upper()}%')
+
+    if clinic_name is not None:
+        where_clauses.append("UPPER(get_string(clinic_name, 'en')) LIKE %s")
+        params.append(f'%{clinic_name.upper()}%')
+
     where_clause = ' AND '.join(where_clauses)
 
-    query = f"SELECT id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at FROM patients WHERE {where_clause};"
+    query = f"SELECT id, given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at FROM patients WHERE {where_clause};"
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(query, params)
@@ -111,7 +122,7 @@ def search_patients(given_name: str, surname: str, country: str, hometown: str):
 
 def patient_from_id(patient_id):
     query = """
-    SELECT given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at FROM patients WHERE id = %s
+    SELECT given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at FROM patients WHERE id = %s
     """
     with get_connection() as conn:
         with conn.cursor() as cur:
@@ -119,7 +130,7 @@ def patient_from_id(patient_id):
             row = cur.fetchone()
             if row is None:
                 return None
-            given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, first_register_date, edited_at = row
+            given_name, surname, date_of_birth, sex, country, hometown, locality, city, hai_village, blok_no, house_no, occupation, insurance, private_insurance, phone, id_number, record_number, clinic_estate, clinic_city, clinic_name, first_register_date, edited_at = row
             return Patient(
                 id=patient_id,
                 given_name=LanguageString.from_id(given_name),
@@ -139,6 +150,9 @@ def patient_from_id(patient_id):
                 phone=phone,
                 id_number=id_number,
                 record_number=record_number,
+                clinic_estate=clinic_estate,
+                clinic_city=clinic_city,
+                clinic_name= clinic_name,
                 first_register_date=first_register_date,
                 edited_at=edited_at
             )
