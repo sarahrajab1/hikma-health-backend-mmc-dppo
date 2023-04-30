@@ -30,6 +30,8 @@ def get_string_ids_and_edit_timestamps():
 
 
 def execute_sql(sql, rows):
+    print(sql)
+    print(rows)
     with get_connection() as conn:
         with conn.cursor() as cur:
             for row in rows:

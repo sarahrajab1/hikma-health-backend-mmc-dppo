@@ -38,6 +38,8 @@ class DbSynchronizer:
     def execute_server_side_sql(self):
         print('Executing SQL on server:', len(self.server_sql), 'commands')
         for data in self.server_sql:
+            print("DATA FROM MOBILE:")
+            print(data)
             execute_sql(data['sql'], data['values'])
 
     def _prepare_table_sync(self, object_type):
